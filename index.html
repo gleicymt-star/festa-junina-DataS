@@ -396,7 +396,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
           <div>
             <label style="font-size:13px;color:#666;display:block;margin-bottom:5px;">Ano de ingresso</label>
-            <select class="totem-input" id="totem-ano" style="padding:12px;">
+            <select class="totem-input" id="totem-ano" style="padding:12px;" onchange="totemValidar()">
               <option value="">—</option>
               <option>2020</option><option>2021</option><option>2022</option>
               <option>2023</option><option>2024</option><option>2025</option><option>2026</option>
@@ -404,7 +404,7 @@
           </div>
           <div>
             <label style="font-size:13px;color:#666;display:block;margin-bottom:5px;">Curso</label>
-            <select class="totem-input" id="totem-curso" style="padding:12px;">
+            <select class="totem-input" id="totem-curso" style="padding:12px;" onchange="totemValidar()">
               <option value="">—</option>
               <option>Administração</option><option>Ciência da Computação</option>
               <option>Contabilidade</option><option>Economia</option>
@@ -487,17 +487,17 @@
           <div class="form-group"><label>Vendedor (opcional)</label><input type="text" id="c-vend" placeholder="Ex: João" /></div>
           <div class="form-group">
             <label>Campus (opcional)</label>
-            <select id="c-campus"><option value="">—</option><option>FCA</option><option>FT</option></select>
+            <select id="c-campus" onchange="caixaValidar()"><option value="">—</option><option>FCA</option><option>FT</option></select>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
             <label>Ano de ingresso (opcional)</label>
-            <select id="c-ano"><option value="">—</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select>
+            <select id="c-ano" onchange="caixaValidar()"><option value="">—</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select>
           </div>
           <div class="form-group">
             <label>Curso (opcional)</label>
-            <select id="c-curso"><option value="">—</option><option>Administração</option><option>Ciência da Computação</option><option>Contabilidade</option><option>Economia</option><option>Engenharia de Produção</option><option>Engenharia de Software</option><option>Nutrição</option><option>Outro</option></select>
+            <select id="c-curso" onchange="caixaValidar()"><option value="">—</option><option>Administração</option><option>Ciência da Computação</option><option>Contabilidade</option><option>Economia</option><option>Engenharia de Produção</option><option>Engenharia de Software</option><option>Nutrição</option><option>Outro</option></select>
           </div>
         </div>
         <div class="form-group"><label>Observação (opcional)</label><textarea id="c-obs" placeholder="Ex: sem cebola..."></textarea></div>
@@ -734,9 +734,11 @@
       btn.disabled = totalItens === 0;
       btn.innerHTML = 'Continuar <i class="ti ti-arrow-right"></i>';
     } else if (tStep === 2) {
-      const nome = document.getElementById('totem-nome').value.trim();
-      const tel  = document.getElementById('totem-tel').value.trim();
-      btn.disabled = !(nome && tel && tPag);
+      const nome  = document.getElementById('totem-nome').value.trim();
+      const tel   = document.getElementById('totem-tel').value.trim();
+      const ano   = document.getElementById('totem-ano').value;
+      const curso = document.getElementById('totem-curso').value;
+      btn.disabled = !(nome && tel && tPag && tCampus && ano && curso);
       btn.innerHTML = 'Continuar <i class="ti ti-arrow-right"></i>';
     } else if (tStep === 3) {
       btn.disabled = false;
@@ -853,9 +855,12 @@
   }
 
   window.caixaValidar = () => {
-    const nome = document.getElementById('c-nome').value.trim();
-    const tel  = document.getElementById('c-tel').value.trim();
-    document.getElementById('c-btn').disabled = !(nome && tel && cProd && cPagSel);
+    const nome   = document.getElementById('c-nome').value.trim();
+    const tel    = document.getElementById('c-tel').value.trim();
+    const campus = document.getElementById('c-campus').value;
+    const ano    = document.getElementById('c-ano').value;
+    const curso  = document.getElementById('c-curso').value;
+    document.getElementById('c-btn').disabled = !(nome && tel && cProd && cPagSel && campus && ano && curso);
   };
 
   window.caixaRegistrar = async () => {
@@ -902,6 +907,17 @@
   // ════════════════════════════════════════════════════════════
   // PAINEL — COZINHA
   // ════════════════════════════════════════════════════════════
+  // Renderiza os itens do pedido de forma legível na cozinha
+  function renderItens(p) {
+    if (p.itens && Object.keys(p.itens).length > 0) {
+      return Object.entries(p.itens)
+        .filter(([,v]) => v > 0)
+        .map(([k,v]) => v + 'x ' + (PRODUTOS[k]?.nome || k))
+        .join(' + ');
+    }
+    return (p.qty || 1) + 'x ' + (PRODUTOS[p.produto]?.nome || p.produto || '');
+  }
+
   window.renderCozinha = () => {
     const filtro = document.getElementById('filtro').value;
     const lista  = document.getElementById('lista-pedidos');
@@ -926,7 +942,7 @@
           </div>
           <span class="badge badge-${p.status}">${labels[p.status]}</span>
         </div>
-        <div class="pedido-info">${p.qty}x ${PRODUTOS[p.produto]?.nome || p.produto} · <strong>R$ ${p.total.toFixed(2).replace('.',',')}</strong> · ${p.horario}</div>
+        <div class="pedido-info">${renderItens(p)} · <strong>R$ ${(+p.total||0).toFixed(2).replace('.',',')}</strong> · ${p.horario}</div>
         <div class="pedido-meta">
           ${p.pagamento ? `<span>${pagIcons[p.pagamento] || p.pagamento}</span>` : ''}
           ${p.vendedor  ? `<span><i class="ti ti-user" style="font-size:11px;"></i> ${p.vendedor}</span>` : ''}
