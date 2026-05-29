@@ -236,6 +236,14 @@
     .rt-dot { width: 8px; height: 8px; border-radius: 50%; background: #ccc; display: inline-block; margin-right: 4px; }
     .rt-dot.connected { background: var(--green); }
 
+    .qty-inline { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+    .qty-inline-btn { width:32px;height:32px;border-radius:50%;border:1.5px solid #ddd;background:#fff;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;color:#1a1a1a; }
+    .qty-inline-btn:active { background:var(--green-light); }
+    .qty-inline-val { font-size:18px;font-weight:700;min-width:20px;text-align:center;color:var(--green); }
+    .produto-item.has-qty { border-color:var(--green); background:var(--green-light); }
+    .campus-btn { padding:14px; border-radius:var(--radius-md); border:1.5px solid #ddd; background:#fafaf8; cursor:pointer; font-size:15px; font-weight:500; color:#666; display:flex; align-items:center; justify-content:center; gap:6px; }
+    .campus-btn.selected { border-color:var(--green); background:var(--green-light); color:var(--green-dark); }
+
     @media (max-width: 380px) {
       .produtos-grid { grid-template-columns: 1fr 1fr; }
       .metrics { grid-template-columns: 1fr 1fr; }
@@ -252,7 +260,7 @@
   <span class="home-emoji">🌽</span>
   <div class="home-logo">
     <h1>Liga de Data Science</h1>
-    <p>Festa Junina 2025</p>
+    <p>Festa Junina 2026</p>
   </div>
   <div class="home-btns">
     <button class="home-btn home-btn-totem" onclick="irTotem()">
@@ -312,63 +320,54 @@
     <div class="totem-progress-dot active"></div>
     <div class="totem-progress-dot"></div>
     <div class="totem-progress-dot"></div>
-    <div class="totem-progress-dot"></div>
   </div>
 
   <div class="totem-body" style="overflow-y:auto;">
 
-    <!-- Step 1: produto -->
+    <!-- Step 1: carrinho -->
     <div class="totem-step active" id="totem-step-1">
-      <div style="margin-bottom:16px;">
-        <div class="totem-section-label" style="margin-top:4px;">Escolha seu produto</div>
-        <div class="produto-grid">
-          <div class="produto-item" onclick="totemSelecionarProduto('corn-dog-queijo',12,this)">
-            <span class="produto-item-emoji">🌽</span>
-            <div class="produto-item-info">
-              <div class="produto-item-nome">Corn Dog</div>
-              <div class="produto-item-desc">Com queijo</div>
-            </div>
-            <div>
-              <div class="produto-item-preco">R$&nbsp;12</div>
-            </div>
-            <div class="produto-item-check"><i class="ti ti-check" style="font-size:14px;display:none;" id="chk-corn-dog-queijo"></i></div>
+      <div class="totem-section-label" style="margin-top:4px;">Escolha os produtos</div>
+      <div class="produto-grid">
+        <div class="produto-item" id="pi-corn-dog-queijo">
+          <span class="produto-item-emoji">🌽</span>
+          <div class="produto-item-info">
+            <div class="produto-item-nome">Corn Dog</div>
+            <div class="produto-item-desc">Com queijo · R$ 12</div>
           </div>
-          <div class="produto-item" onclick="totemSelecionarProduto('corn-dog-simples',10,this)">
-            <span class="produto-item-emoji">🌽</span>
-            <div class="produto-item-info">
-              <div class="produto-item-nome">Corn Dog</div>
-              <div class="produto-item-desc">Sem queijo</div>
-            </div>
-            <div>
-              <div class="produto-item-preco">R$&nbsp;10</div>
-            </div>
-            <div class="produto-item-check"><i class="ti ti-check" style="font-size:14px;display:none;" id="chk-corn-dog-simples"></i></div>
+          <div class="qty-inline">
+            <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('corn-dog-queijo',-1)">−</button>
+            <span class="qty-inline-val" id="tqty-corn-dog-queijo">0</span>
+            <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('corn-dog-queijo',1)">+</button>
           </div>
-          <div class="produto-item" onclick="totemSelecionarProduto('banana-frita',8,this)">
-            <span class="produto-item-emoji">🍌</span>
-            <div class="produto-item-info">
-              <div class="produto-item-nome">Banana Frita</div>
-              <div class="produto-item-desc">Vegano</div>
-            </div>
-            <div>
-              <div class="produto-item-preco">R$&nbsp;8</div>
-            </div>
-            <div class="produto-item-check"><i class="ti ti-check" style="font-size:14px;display:none;" id="chk-banana-frita"></i></div>
+        </div>
+        <div class="produto-item" id="pi-corn-dog-simples">
+          <span class="produto-item-emoji">🌽</span>
+          <div class="produto-item-info">
+            <div class="produto-item-nome">Corn Dog</div>
+            <div class="produto-item-desc">Sem queijo · R$ 10</div>
+          </div>
+          <div class="qty-inline">
+            <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('corn-dog-simples',-1)">−</button>
+            <span class="qty-inline-val" id="tqty-corn-dog-simples">0</span>
+            <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('corn-dog-simples',1)">+</button>
+          </div>
+        </div>
+        <div class="produto-item" id="pi-banana-frita">
+          <span class="produto-item-emoji">🍌</span>
+          <div class="produto-item-info">
+            <div class="produto-item-nome">Banana Frita</div>
+            <div class="produto-item-desc">Vegano · R$ 8</div>
+          </div>
+          <div class="qty-inline">
+            <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('banana-frita',-1)">−</button>
+            <span class="qty-inline-val" id="tqty-banana-frita">0</span>
+            <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('banana-frita',1)">+</button>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Step 2: quantidade -->
-    <div class="totem-step" id="totem-step-2">
-      <div class="totem-card">
-        <div class="totem-section-label">Quantidade</div>
-        <div class="qty-big">
-          <button class="qty-big-btn" onclick="totemQty(-1)">−</button>
-          <span class="qty-big-val" id="totem-qty-val">1</span>
-          <button class="qty-big-btn" onclick="totemQty(1)">+</button>
-        </div>
-        <div style="text-align:center;margin-top:12px;font-size:18px;font-weight:700;color:var(--green);" id="totem-subtotal">R$ —</div>
+      <div style="background:#fff;border:var(--border);border-radius:var(--radius-lg);padding:14px 18px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:15px;color:#666;">Total</span>
+        <span style="font-size:22px;font-weight:700;color:var(--green);" id="totem-cart-total">R$ 0</span>
       </div>
     </div>
 
@@ -387,6 +386,31 @@
         <div class="totem-form-group">
           <label>Observação (opcional)</label>
           <input class="totem-input" type="text" id="totem-obs" placeholder="Ex: sem cebola, alergia..." />
+        </div>
+        <div class="totem-section-label" style="margin-top:16px;">Sobre você (opcional)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <button class="campus-btn" onclick="totemCampus('FCA',this)"><i class="ti ti-building"></i> FCA</button>
+          <button class="campus-btn" onclick="totemCampus('FT',this)"><i class="ti ti-building"></i> FT</button>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+          <div>
+            <label style="font-size:13px;color:#666;display:block;margin-bottom:5px;">Ano de ingresso</label>
+            <select class="totem-input" id="totem-ano" style="padding:12px;">
+              <option value="">—</option>
+              <option>2020</option><option>2021</option><option>2022</option>
+              <option>2023</option><option>2024</option><option>2025</option><option>2026</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:13px;color:#666;display:block;margin-bottom:5px;">Curso</label>
+            <select class="totem-input" id="totem-curso" style="padding:12px;">
+              <option value="">—</option>
+              <option>Administração</option><option>Ciência da Computação</option>
+              <option>Contabilidade</option><option>Economia</option>
+              <option>Engenharia de Produção</option><option>Engenharia de Software</option>
+              <option>Nutrição</option><option>Outro</option>
+            </select>
+          </div>
         </div>
         <div class="totem-section-label" style="margin-top:16px;">Forma de pagamento</div>
         <div class="pag-btns">
@@ -412,7 +436,7 @@
     </div>
 
     <!-- Step 5: sucesso -->
-    <div class="totem-step" id="totem-step-5">
+    <div class="totem-step" id="totem-step-4">
       <div class="totem-sucesso">
         <span class="sucesso-emoji">🎉</span>
         <div class="sucesso-num" id="sucesso-num">#1</div>
@@ -460,6 +484,20 @@
         </div>
         <div class="form-row">
           <div class="form-group"><label>Vendedor (opcional)</label><input type="text" id="c-vend" placeholder="Ex: João" /></div>
+          <div class="form-group">
+            <label>Campus (opcional)</label>
+            <select id="c-campus"><option value="">—</option><option>FCA</option><option>FT</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ano de ingresso (opcional)</label>
+            <select id="c-ano"><option value="">—</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select>
+          </div>
+          <div class="form-group">
+            <label>Curso (opcional)</label>
+            <select id="c-curso"><option value="">—</option><option>Administração</option><option>Ciência da Computação</option><option>Contabilidade</option><option>Economia</option><option>Engenharia de Produção</option><option>Engenharia de Software</option><option>Nutrição</option><option>Outro</option></select>
+          </div>
         </div>
         <div class="form-group"><label>Observação (opcional)</label><textarea id="c-obs" placeholder="Ex: sem cebola..."></textarea></div>
       </div>
@@ -625,30 +663,29 @@
   // ════════════════════════════════════════════════════════════
   // TOTEM
   // ════════════════════════════════════════════════════════════
-  let tProd = null, tPreco = 0, tQty = 1, tPag = null, tStep = 1;
+  let tCart = {}, tPag = null, tStep = 1, tCampus = null;
   let countdownTimer = null;
 
-  window.totemSelecionarProduto = (p, preco, el) => {
-    document.querySelectorAll('.produto-item').forEach(x => x.classList.remove('selected'));
-    document.querySelectorAll('[id^="chk-"]').forEach(x => x.style.display = 'none');
-    el.classList.add('selected');
-    document.getElementById('chk-' + p).style.display = 'block';
-    tProd = p; tPreco = preco;
-    atualizarSubtotal();
+  // carrinho: { 'corn-dog-queijo': 2, 'banana-frita': 1 }
+  window.totemCartQty = (prod, d) => {
+    tCart[prod] = Math.max(0, (tCart[prod] || 0) + d);
+    document.getElementById('tqty-' + prod).textContent = tCart[prod];
+    const el = document.getElementById('pi-' + prod);
+    el.classList.toggle('has-qty', tCart[prod] > 0);
+    atualizarCartTotal();
     totemNavUpdate();
   };
 
-  window.totemQty = (d) => {
-    tQty = Math.max(1, tQty + d);
-    document.getElementById('totem-qty-val').textContent = tQty;
-    atualizarSubtotal();
-  };
-
-  function atualizarSubtotal() {
-    document.getElementById('totem-subtotal').textContent = tProd
-      ? 'R$ ' + (tPreco * tQty).toFixed(2).replace('.', ',')
-      : 'R$ —';
+  function atualizarCartTotal() {
+    const total = Object.entries(tCart).reduce((s,[k,v]) => s + (PRODUTOS[k]?.preco || 0) * v, 0);
+    document.getElementById('totem-cart-total').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
   }
+
+  window.totemCampus = (v, el) => {
+    document.querySelectorAll('.campus-btn').forEach(x => x.classList.remove('selected'));
+    el.classList.add('selected');
+    tCampus = v;
+  };
 
   window.totemPag = (p, el) => {
     document.querySelectorAll('.pag-btn').forEach(x => x.classList.remove('selected'));
@@ -658,7 +695,7 @@
   };
 
   window.totemAvancar = () => {
-    if (tStep < 4) { tStep++; totemGoStep(tStep); }
+    if (tStep < 3) { tStep++; totemGoStep(tStep); }
     else { totemConfirmar(); }
   };
 
@@ -672,8 +709,8 @@
     document.getElementById('totem-step-' + s).classList.add('active');
     updateProgress(s);
     totemNavUpdate();
-    if (s === 4) renderResumo();
-    if (s === 5) {
+    if (s === 3) renderResumo();
+    if (s === 4) {
       document.getElementById('totem-nav').style.display = 'none';
       iniciarCountdown();
     } else {
@@ -691,49 +728,59 @@
 
   function totemNavUpdate() {
     const btn = document.getElementById('totem-btn-next');
-    if (tStep === 1) btn.disabled = !tProd;
-    else if (tStep === 2) btn.disabled = false;
-    else if (tStep === 3) {
+    const totalItens = Object.values(tCart).reduce((s,v) => s+v, 0);
+    if (tStep === 1) btn.disabled = totalItens === 0;
+    else if (tStep === 2) {
       const nome = document.getElementById('totem-nome').value.trim();
       const tel  = document.getElementById('totem-tel').value.trim();
       btn.disabled = !(nome && tel && tPag);
     }
-    else if (tStep === 4) { btn.disabled = false; btn.innerHTML = 'Confirmar pedido <i class="ti ti-check"></i>'; }
-    if (tStep < 4) btn.innerHTML = 'Continuar <i class="ti ti-arrow-right"></i>';
+    else if (tStep === 3) { btn.disabled = false; btn.innerHTML = 'Confirmar pedido <i class="ti ti-check"></i>'; }
+    if (tStep < 3) btn.innerHTML = 'Continuar <i class="ti ti-arrow-right"></i>';
   }
 
   window.totemValidar = () => totemNavUpdate();
 
   function renderResumo() {
     const pagLabels = { pix: 'Pix', dinheiro: 'Dinheiro' };
-    document.getElementById('totem-resumo').innerHTML = `
-      <div class="resumo-item"><span>Produto</span><span>${PRODUTOS[tProd].nome}</span></div>
-      <div class="resumo-item"><span>Quantidade</span><span>${tQty}x</span></div>
-      <div class="resumo-item"><span>Pagamento</span><span>${pagLabels[tPag]}</span></div>
-      <div class="resumo-total"><span>Total</span><span>R$ ${(tPreco * tQty).toFixed(2).replace('.', ',')}</span></div>
-    `;
+    const itens = Object.entries(tCart).filter(([,v]) => v > 0);
+    const total = itens.reduce((s,[k,v]) => s + PRODUTOS[k].preco * v, 0);
+    const linhas = itens.map(([k,v]) => `<div class="resumo-item"><span>${PRODUTOS[k].nome}</span><span>${v}x · R$ ${(PRODUTOS[k].preco*v).toFixed(2).replace('.',',')}</span></div>`).join('');
+    document.getElementById('totem-resumo').innerHTML = linhas +
+      `<div class="resumo-item"><span>Pagamento</span><span>${pagLabels[tPag]}</span></div>` +
+      `<div class="resumo-total"><span>Total</span><span>R$ ${total.toFixed(2).replace('.',',')}</span></div>`;
   }
 
   async function totemConfirmar() {
-    const nome = document.getElementById('totem-nome').value.trim();
-    const tel  = document.getElementById('totem-tel').value.replace(/\D/g, '');
-    const obs  = document.getElementById('totem-obs').value.trim();
+    const nome   = document.getElementById('totem-nome').value.trim();
+    const tel    = document.getElementById('totem-tel').value.replace(/\D/g, '');
+    const obs    = document.getElementById('totem-obs').value.trim();
+    const ano    = document.getElementById('totem-ano').value;
+    const curso  = document.getElementById('totem-curso').value;
+    const itens  = Object.entries(tCart).filter(([,v]) => v > 0);
+    const total  = itens.reduce((s,[k,v]) => s + PRODUTOS[k].preco * v, 0);
+    // resumo legível dos itens
+    const prodStr = itens.map(([k,v]) => v + 'x ' + PRODUTOS[k].nome).join(', ');
     const pedido = {
       numero: contadorLocal++,
       nome, tel, obs,
       vendedor: '',
       pagamento: tPag,
-      produto: tProd,
-      qty: tQty,
-      total: tPreco * tQty,
+      campus: tCampus || '',
+      ano: ano || '',
+      curso: curso || '',
+      itens: tCart,          // objeto completo para o Firebase
+      produto: prodStr,      // string legível para cozinha/CSV
+      qty: itens.reduce((s,[,v]) => s+v, 0),
+      total,
       status: 'aguardando',
       origem: 'totem',
       horario: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
     };
     await push(pedidosRef, pedido);
     document.getElementById('sucesso-num').textContent = '#' + pedido.numero;
-    tStep = 5;
-    totemGoStep(5);
+    tStep = 4;
+    totemGoStep(4);
   }
 
   function iniciarCountdown() {
@@ -749,15 +796,21 @@
 
   window.totemReset = () => {
     if (countdownTimer) clearInterval(countdownTimer);
-    tProd = null; tPreco = 0; tQty = 1; tPag = null; tStep = 1;
-    document.querySelectorAll('.produto-item').forEach(x => x.classList.remove('selected'));
-    document.querySelectorAll('[id^="chk-"]').forEach(x => x.style.display = 'none');
+    tCart = {}; tPag = null; tStep = 1; tCampus = null;
+    Object.keys(PRODUTOS).forEach(k => {
+      const el = document.getElementById('tqty-' + k);
+      if (el) el.textContent = '0';
+      const pi = document.getElementById('pi-' + k);
+      if (pi) pi.classList.remove('has-qty');
+    });
     document.querySelectorAll('.pag-btn').forEach(x => x.classList.remove('selected'));
-    document.getElementById('totem-nome').value = '';
-    document.getElementById('totem-tel').value  = '';
-    document.getElementById('totem-obs').value  = '';
-    document.getElementById('totem-qty-val').textContent = '1';
-    document.getElementById('totem-subtotal').textContent = 'R$ —';
+    document.querySelectorAll('.campus-btn').forEach(x => x.classList.remove('selected'));
+    document.getElementById('totem-nome').value  = '';
+    document.getElementById('totem-tel').value   = '';
+    document.getElementById('totem-obs').value   = '';
+    document.getElementById('totem-ano').value   = '';
+    document.getElementById('totem-curso').value = '';
+    document.getElementById('totem-cart-total').textContent = 'R$ 0';
     document.getElementById('totem-nav').style.display = 'flex';
     totemGoStep(1);
   };
@@ -801,15 +854,19 @@
   };
 
   window.caixaRegistrar = async () => {
-    const nome = document.getElementById('c-nome').value.trim();
-    const tel  = document.getElementById('c-tel').value.replace(/\D/g, '');
-    const obs  = document.getElementById('c-obs').value.trim();
-    const vend = document.getElementById('c-vend').value.trim();
+    const nome   = document.getElementById('c-nome').value.trim();
+    const tel    = document.getElementById('c-tel').value.replace(/\D/g, '');
+    const obs    = document.getElementById('c-obs').value.trim();
+    const vend   = document.getElementById('c-vend').value.trim();
+    const campus = document.getElementById('c-campus').value;
+    const ano    = document.getElementById('c-ano').value;
+    const curso  = document.getElementById('c-curso').value;
     const pedido = {
       numero: contadorLocal++,
       nome, tel, obs, vendedor: vend,
+      campus, ano, curso,
       pagamento: cPagSel,
-      produto: cProd,
+      produto: PRODUTOS[cProd]?.nome || cProd,
       qty: cQty,
       total: cPreco * cQty,
       status: 'aguardando',
@@ -822,10 +879,13 @@
   };
 
   function caixaReset() {
-    document.getElementById('c-nome').value = '';
-    document.getElementById('c-tel').value  = '';
-    document.getElementById('c-obs').value  = '';
-    document.getElementById('c-vend').value = '';
+    document.getElementById('c-nome').value   = '';
+    document.getElementById('c-tel').value    = '';
+    document.getElementById('c-obs').value    = '';
+    document.getElementById('c-vend').value   = '';
+    document.getElementById('c-campus').value = '';
+    document.getElementById('c-ano').value    = '';
+    document.getElementById('c-curso').value  = '';
     document.querySelectorAll('.prod-btn').forEach(x => x.classList.remove('selected'));
     document.querySelectorAll('.pag-mini').forEach(x => x.classList.remove('selected'));
     cProd = null; cPreco = 0; cQty = 1; cPagSel = null;
@@ -946,10 +1006,10 @@
   };
 
   window.exportarCSV = () => {
-    const header = 'Pedido,Nome,Telefone,Produto,Qtd,Total,Pagamento,Vendedor,Origem,Horario,Status,Obs';
+    const header = 'Pedido,Nome,Telefone,Produto,Qtd,Total,Pagamento,Vendedor,Campus,Ano,Curso,Origem,Horario,Status,Obs';
     const rows = Object.values(pedidos).map(p => [
       p.numero, p.nome, p.tel, PRODUTOS[p.produto]?.nome || p.produto,
-      p.qty, (p.total || 0).toFixed(2).replace('.', ','), p.pagamento, p.vendedor, p.origem,
+      p.qty, (p.total || 0).toFixed(2).replace('.', ','), p.pagamento, p.vendedor, p.campus||'', p.ano||'', p.curso||'', p.origem,
       p.horario, p.status, p.obs || ''
     ].map(v => `"${v || ''}"`).join(','));
     const csv  = [header, ...rows].join('\n');
