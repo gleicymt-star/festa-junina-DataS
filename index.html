@@ -973,11 +973,20 @@
 
   // ─── WHATSAPP ────────────────────────────────────────────────────────────────
   function abrirWhatsApp(p, status) {
-    const nomeProduto = PRODUTOS[p.produto]?.nome || p.produto;
+    // Monta lista de itens
+    let listaItens = '';
+    if (p.itens && Object.keys(p.itens).length > 0) {
+      listaItens = Object.entries(p.itens)
+        .filter(([, v]) => v > 0)
+        .map(([k, v]) => '- ' + v + 'x ' + (PRODUTOS[k]?.nome || k))
+        .join('\n');
+    } else {
+      listaItens = '- ' + (p.qty || 1) + 'x ' + (PRODUTOS[p.produto]?.nome || p.produto);
+    }
     const obs = p.obs ? '\nObs: ' + p.obs : '';
     const msgs = {
-      preparo: 'Ol\u00e1, ' + p.nome + '! \uD83C\uDF3D\nSeu pedido #' + p.numero + ' (' + p.qty + 'x ' + nomeProduto + ') est\u00e1 sendo preparado com carinho.' + obs + '\nTe avisamos quando estiver prontinho! \u2014 ' + NOME_BARRACA + ' \uD83C\uDFAA',
-      pronto:  'Ol\u00e1, ' + p.nome + '! \u2705\nSeu pedido #' + p.numero + ' (' + p.qty + 'x ' + nomeProduto + ') est\u00e1 *PRONTO*! Pode vir buscar na barraca.' + obs + '\n\u2014 ' + NOME_BARRACA + ' \uD83C\uDFAA'
+      preparo: 'Ola, ' + p.nome + '!\nSeu pedido #' + p.numero + ' esta sendo preparado:\n' + listaItens + obs + '\nTe avisamos quando estiver pronto! -- ' + NOME_BARRACA,
+      pronto:  'Ola, ' + p.nome + '!\nSeu pedido #' + p.numero + ' esta *PRONTO*! Pode vir buscar na barraca.\n' + listaItens + obs + '\n-- ' + NOME_BARRACA
     };
     const tel    = p.tel.replace(/\D/g, '');
     const telFmt = tel.length === 11 ? '55' + tel : tel;
@@ -994,15 +1003,17 @@
     const fat = lista.reduce((s, p) => s + (p.total || 0), 0);
     document.getElementById('m-fat').textContent = 'R$\u00a0' + fat.toFixed(2).replace('.', ',');
 
-    const grupos = (key, labelFn) => {
-      const c = {};
+    const grupos = (key, labelFn, ignorarVazio) => {
+      const g = {};
       lista.forEach(p => {
-        const k = p[key] || 'N/A';
-        if (!c[k]) c[k] = { qty: 0, total: 0 };
-        c[k].qty++;
-        c[k].total += p.total || 0;
+        const k = p[key] || '';
+        if (ignorarVazio && !k) return;
+        const label = k || 'N/A';
+        if (!g[label]) g[label] = { qty: 0, total: 0 };
+        g[label].qty++;
+        g[label].total += p.total || 0;
       });
-      return Object.entries(c).map(([k, d]) => `
+      return Object.entries(g).map(([k, d]) => `
         <div class="rel-item">
           <span>${labelFn ? labelFn(k) : k}</span>
           <span style="color:#888">${d.qty} pedido${d.qty > 1 ? 's' : ''} · <strong>R$ ${d.total.toFixed(2).replace('.',',')}</strong></span>
@@ -1011,9 +1022,21 @@
 
     const prodGrupo = {};
     lista.forEach(p => {
-      if (!prodGrupo[p.produto]) prodGrupo[p.produto] = { qty: 0, total: 0 };
-      prodGrupo[p.produto].qty   += p.qty || 0;
-      prodGrupo[p.produto].total += p.total || 0;
+      if (p.itens && Object.keys(p.itens).length > 0) {
+        // carrinho com múltiplos itens — expandir cada um
+        Object.entries(p.itens).forEach(([k, v]) => {
+          if (!v || v <= 0) return;
+          if (!prodGrupo[k]) prodGrupo[k] = { qty: 0, total: 0 };
+          prodGrupo[k].qty   += v;
+          prodGrupo[k].total += (PRODUTOS[k]?.preco || 0) * v;
+        });
+      } else {
+        // pedido simples da caixa
+        const k = p.produto;
+        if (!prodGrupo[k]) prodGrupo[k] = { qty: 0, total: 0 };
+        prodGrupo[k].qty   += p.qty || 1;
+        prodGrupo[k].total += p.total || 0;
+      }
     });
     document.getElementById('r-prod').innerHTML = Object.entries(prodGrupo).map(([k, d]) => `
       <div class="rel-item">
@@ -1022,7 +1045,7 @@
       </div>`).join('') || '<p style="font-size:14px;color:#bbb;padding:6px 0;">Sem dados.</p>';
 
     document.getElementById('r-pag').innerHTML    = grupos('pagamento', k => ({ pix: 'Pix', dinheiro: 'Dinheiro' })[k] || k);
-    document.getElementById('r-vend').innerHTML   = grupos('vendedor');
+    document.getElementById('r-vend').innerHTML   = grupos('vendedor', null, true);
     document.getElementById('r-origem').innerHTML = grupos('origem', k => ({ totem: 'Totem (cliente)', caixa: 'Caixa (liga)' })[k] || k);
   };
 
