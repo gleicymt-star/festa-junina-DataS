@@ -871,7 +871,7 @@
       nome, tel, obs, vendedor: vend,
       campus, ano, curso,
       pagamento: cPagSel,
-      produto: PRODUTOS[cProd]?.nome || cProd,
+      produto: cProd,
       qty: cQty,
       total: cPreco * cQty,
       status: 'aguardando',
@@ -926,7 +926,7 @@
           </div>
           <span class="badge badge-${p.status}">${labels[p.status]}</span>
         </div>
-        <div class="pedido-info">${p.qty}x ${PRODUTOS[p.produto].nome} · <strong>R$ ${p.total.toFixed(2).replace('.',',')}</strong> · ${p.horario}</div>
+        <div class="pedido-info">${p.qty}x ${PRODUTOS[p.produto]?.nome || p.produto} · <strong>R$ ${p.total.toFixed(2).replace('.',',')}</strong> · ${p.horario}</div>
         <div class="pedido-meta">
           ${p.pagamento ? `<span>${pagIcons[p.pagamento] || p.pagamento}</span>` : ''}
           ${p.vendedor  ? `<span><i class="ti ti-user" style="font-size:11px;"></i> ${p.vendedor}</span>` : ''}
@@ -957,7 +957,7 @@
 
   // ─── WHATSAPP ────────────────────────────────────────────────────────────────
   function abrirWhatsApp(p, status) {
-    const nomeProduto = PRODUTOS[p.produto].nome;
+    const nomeProduto = PRODUTOS[p.produto]?.nome || p.produto;
     const obs = p.obs ? '\nObs: ' + p.obs : '';
     const msgs = {
       preparo: 'Ol\u00e1, ' + p.nome + '! \uD83C\uDF3D\nSeu pedido #' + p.numero + ' (' + p.qty + 'x ' + nomeProduto + ') est\u00e1 sendo preparado com carinho.' + obs + '\nTe avisamos quando estiver prontinho! \u2014 ' + NOME_BARRACA + ' \uD83C\uDFAA',
@@ -1031,7 +1031,7 @@
       } else {
         // pedido simples (caixa) — uma linha só
         rows.push([
-          p.numero, p.nome, p.tel, p.produto || '',
+          p.numero, p.nome, p.tel, PRODUTOS[p.produto]?.nome || p.produto || '',
           p.qty || 1,
           (p.total || 0).toFixed(2).replace('.', ','),
           (p.total || 0).toFixed(2).replace('.', ','),
