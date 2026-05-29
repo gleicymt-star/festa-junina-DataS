@@ -320,6 +320,7 @@
     <div class="totem-progress-dot active"></div>
     <div class="totem-progress-dot"></div>
     <div class="totem-progress-dot"></div>
+    <div class="totem-progress-dot"></div>
   </div>
 
   <div class="totem-body" style="overflow-y:auto;">
@@ -372,7 +373,7 @@
     </div>
 
     <!-- Step 3: dados -->
-    <div class="totem-step" id="totem-step-3">
+    <div class="totem-step" id="totem-step-2">
       <div class="totem-card">
         <div class="totem-section-label">Seus dados</div>
         <div class="totem-form-group">
@@ -427,7 +428,7 @@
     </div>
 
     <!-- Step 4: resumo -->
-    <div class="totem-step" id="totem-step-4">
+    <div class="totem-step" id="totem-step-3">
       <div class="totem-card">
         <div class="totem-section-label">Resumo do pedido</div>
         <div id="totem-resumo"></div>
@@ -696,7 +697,7 @@
 
   window.totemAvancar = () => {
     if (tStep < 3) { tStep++; totemGoStep(tStep); }
-    else { totemConfirmar(); }
+    else if (tStep === 3) { totemConfirmar(); }
   };
 
   window.totemVoltar = () => {
@@ -729,14 +730,18 @@
   function totemNavUpdate() {
     const btn = document.getElementById('totem-btn-next');
     const totalItens = Object.values(tCart).reduce((s,v) => s+v, 0);
-    if (tStep === 1) btn.disabled = totalItens === 0;
-    else if (tStep === 2) {
+    if (tStep === 1) {
+      btn.disabled = totalItens === 0;
+      btn.innerHTML = 'Continuar <i class="ti ti-arrow-right"></i>';
+    } else if (tStep === 2) {
       const nome = document.getElementById('totem-nome').value.trim();
       const tel  = document.getElementById('totem-tel').value.trim();
       btn.disabled = !(nome && tel && tPag);
+      btn.innerHTML = 'Continuar <i class="ti ti-arrow-right"></i>';
+    } else if (tStep === 3) {
+      btn.disabled = false;
+      btn.innerHTML = 'Confirmar pedido <i class="ti ti-check"></i>';
     }
-    else if (tStep === 3) { btn.disabled = false; btn.innerHTML = 'Confirmar pedido <i class="ti ti-check"></i>'; }
-    if (tStep < 3) btn.innerHTML = 'Continuar <i class="ti ti-arrow-right"></i>';
   }
 
   window.totemValidar = () => totemNavUpdate();
@@ -1006,12 +1011,35 @@
   };
 
   window.exportarCSV = () => {
-    const header = 'Pedido,Nome,Telefone,Produto,Qtd,Total,Pagamento,Vendedor,Campus,Ano,Curso,Origem,Horario,Status,Obs';
-    const rows = Object.values(pedidos).map(p => [
-      p.numero, p.nome, p.tel, PRODUTOS[p.produto]?.nome || p.produto,
-      p.qty, (p.total || 0).toFixed(2).replace('.', ','), p.pagamento, p.vendedor, p.campus||'', p.ano||'', p.curso||'', p.origem,
-      p.horario, p.status, p.obs || ''
-    ].map(v => `"${v || ''}"`).join(','));
+    const header = 'Pedido,Nome,Telefone,Produto,Qtd,Total do Item,Total do Pedido,Pagamento,Vendedor,Campus,Ano,Curso,Origem,Horario,Status,Obs';
+    const rows = [];
+    Object.values(pedidos).sort((a,b) => a.numero - b.numero).forEach(p => {
+      // se tem itens múltiplos (carrinho), expande em linhas
+      if (p.itens && Object.keys(p.itens).length > 0) {
+        const itensValidos = Object.entries(p.itens).filter(([,v]) => v > 0);
+        itensValidos.forEach(([k, v]) => {
+          const nomeProd = PRODUTOS[k]?.nome || k;
+          const preco    = PRODUTOS[k]?.preco || 0;
+          const subtotal = (preco * v).toFixed(2).replace('.', ',');
+          rows.push([
+            p.numero, p.nome, p.tel, nomeProd, v, subtotal,
+            (p.total || 0).toFixed(2).replace('.', ','),
+            p.pagamento||'', p.vendedor||'', p.campus||'', p.ano||'', p.curso||'',
+            p.origem||'', p.horario||'', p.status||'', p.obs||''
+          ].map(v => `"${v}"`).join(','));
+        });
+      } else {
+        // pedido simples (caixa) — uma linha só
+        rows.push([
+          p.numero, p.nome, p.tel, p.produto || '',
+          p.qty || 1,
+          (p.total || 0).toFixed(2).replace('.', ','),
+          (p.total || 0).toFixed(2).replace('.', ','),
+          p.pagamento||'', p.vendedor||'', p.campus||'', p.ano||'', p.curso||'',
+          p.origem||'', p.horario||'', p.status||'', p.obs||''
+        ].map(v => `"${v}"`).join(','));
+      }
+    });
     const csv  = [header, ...rows].join('\n');
     const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
     const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
