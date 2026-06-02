@@ -388,7 +388,7 @@
           <label>Observação (opcional)</label>
           <input class="totem-input" type="text" id="totem-obs" placeholder="Ex: sem cebola, alergia..." />
         </div>
-        <div class="totem-section-label" style="margin-top:16px;">Sobre você (opcional)</div>
+        <div class="totem-section-label" style="margin-top:16px;">Sobre você</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
           <button class="campus-btn" onclick="totemCampus('FCA',this)"><i class="ti ti-building"></i> FCA</button>
           <button class="campus-btn" onclick="totemCampus('FT',this)"><i class="ti ti-building"></i> FT</button>
@@ -406,10 +406,13 @@
             <label style="font-size:13px;color:#666;display:block;margin-bottom:5px;">Curso</label>
             <select class="totem-input" id="totem-curso" style="padding:12px;" onchange="totemValidar()">
               <option value="">—</option>
-              <option>Administração</option><option>Ciência da Computação</option>
-              <option>Contabilidade</option><option>Economia</option>
-              <option>Engenharia de Produção</option><option>Engenharia de Software</option>
-              <option>Nutrição</option><option>Outro</option>
+              <option>Administração</option><option>Administração Pública</option>
+              <option>Ciências do Esporte</option><option>Engenharia de Manufatura</option>
+              <option>Engenharia de Produção</option><option>Nutrição</option>
+              <option>Sistemas de Informaçao</option><option>Saneamento Ambiental</option>
+              <option>Engenharia Ambiental</option><option>Engenharia de Transportes</option>
+              <option>Engenharia de Telecomunicações</option><option>Professor(a)</option>
+              <option>Prestador(a) de Serviços</option><option>Outro</option>
             </select>
           </div>
         </div>
@@ -486,18 +489,24 @@
         <div class="form-row">
           <div class="form-group"><label>Vendedor (opcional)</label><input type="text" id="c-vend" placeholder="Ex: João" /></div>
           <div class="form-group">
-            <label>Campus (opcional)</label>
+            <label>Campus</label>
             <select id="c-campus" onchange="caixaValidar()"><option value="">—</option><option>FCA</option><option>FT</option></select>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Ano de ingresso (opcional)</label>
+            <label>Ano de ingresso</label>
             <select id="c-ano" onchange="caixaValidar()"><option value="">—</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select>
           </div>
           <div class="form-group">
-            <label>Curso (opcional)</label>
-            <select id="c-curso" onchange="caixaValidar()"><option value="">—</option><option>Administração</option><option>Ciência da Computação</option><option>Contabilidade</option><option>Economia</option><option>Engenharia de Produção</option><option>Engenharia de Software</option><option>Nutrição</option><option>Outro</option></select>
+            <label>Curso</label>
+            <select id="c-curso" onchange="caixaValidar()"><option value="">—</option><option>Administração</option><option>Administração Pública</option>
+              <option>Ciências do Esporte</option><option>Engenharia de Manufatura</option>
+              <option>Engenharia de Produção</option><option>Nutrição</option>
+              <option>Sistemas de Informaçao</option><option>Saneamento Ambiental</option>
+              <option>Engenharia Ambiental</option><option>Engenharia de Transportes</option>
+              <option>Engenharia de Telecomunicações</option><option>Professor(a)</option>
+              <option>Prestador(a) de Serviços</option><option>Outro</option></select>
           </div>
         </div>
         <div class="form-group"><label>Observação (opcional)</label><textarea id="c-obs" placeholder="Ex: sem cebola..."></textarea></div>
