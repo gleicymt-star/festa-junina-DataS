@@ -970,6 +970,7 @@
         <div class="pedido-meta">
           ${p.pagamento ? `<span>${pagIcons[p.pagamento] || p.pagamento}</span>` : ''}
           ${p.vendedor  ? `<span><i class="ti ti-user" style="font-size:11px;"></i> ${p.vendedor}</span>` : ''}
+          ${p.horarioEntrega ? `<span><i class="ti ti-package" style="font-size:11px;"></i> Entregue às ${p.horarioEntrega}</span>` : ''}
         </div>
         ${p.obs ? `<div class="pedido-obs"><i class="ti ti-note" style="font-size:12px;"></i> ${p.obs}</div>` : ''}
         ${p.status !== 'entregue' ? `
@@ -992,6 +993,7 @@
       abrirWhatsApp(p, novoStatus);
     }
     if (novoStatus === 'entregue') {
+      updates[`pedidos/${key}/horarioEntrega`] = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
       abrirWhatsAppEntregue(p);
     }
     await update(ref(db), updates);
@@ -1012,8 +1014,8 @@
     }
     const obs = p.obs ? '\nObs: ' + p.obs : '';
     const msgs = {
-      preparo: 'Ola, ' + p.nome + '!\nSeu pedido #' + p.numero + ' esta sendo preparado:\n' + listaItens + obs + '\nTe avisamos quando estiver pronto! -- ' + NOME_BARRACA,
-      pronto:  'Ola, ' + p.nome + '!\nSeu pedido #' + p.numero + ' esta *PRONTO*! Pode vir buscar na barraca.\n' + listaItens + obs + '\n-- ' + NOME_BARRACA
+      preparo: 'Ola, ' + p.nome + '!\nSeu pedido esta sendo preparado:\n' + listaItens + obs + '\nTe avisamos quando estiver pronto! -- ' + NOME_BARRACA,
+      pronto:  'Ola, ' + p.nome + '!\nSeu pedido esta *PRONTO*! Pode vir buscar na barraca.\n' + listaItens + obs + '\n-- ' + NOME_BARRACA
     };
     const tel    = p.tel.replace(/\D/g, '');
     const telFmt = tel.length === 11 ? '55' + tel : tel;
@@ -1084,7 +1086,7 @@
   };
 
   window.exportarCSV = () => {
-    const header = 'Pedido,Nome,Telefone,Produto,Qtd,Total do Item,Total do Pedido,Pagamento,Vendedor,Campus,Ano,Curso,Origem,Horario,Status,Obs';
+    const header = 'Pedido,Nome,Telefone,Produto,Qtd,Total do Item,Total do Pedido,Pagamento,Vendedor,Campus,Ano,Curso,Origem,Horario Pedido,Horario Entrega,Status,Obs';
     const rows = [];
     Object.values(pedidos).sort((a,b) => a.numero - b.numero).forEach(p => {
       // se tem itens múltiplos (carrinho), expande em linhas
@@ -1098,7 +1100,7 @@
             p.numero, p.nome, p.tel, nomeProd, v, subtotal,
             (p.total || 0).toFixed(2).replace('.', ','),
             p.pagamento||'', p.vendedor||'', p.campus||'', p.ano||'', p.curso||'',
-            p.origem||'', p.horario||'', p.status||'', p.obs||''
+            p.origem||'', p.horario||'', p.horarioEntrega||'', p.status||'', p.obs||''
           ].map(v => `"${v}"`).join(','));
         });
       } else {
@@ -1109,7 +1111,7 @@
           (p.total || 0).toFixed(2).replace('.', ','),
           (p.total || 0).toFixed(2).replace('.', ','),
           p.pagamento||'', p.vendedor||'', p.campus||'', p.ano||'', p.curso||'',
-          p.origem||'', p.horario||'', p.status||'', p.obs||''
+          p.origem||'', p.horario||'', p.horarioEntrega||'', p.status||'', p.obs||''
         ].map(v => `"${v}"`).join(','));
       }
     });
