@@ -365,6 +365,30 @@
             <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('banana-frita',1)">+</button>
           </div>
         </div>
+        <div class="produto-item" id="pi-combo-queijo" style="border-color:#c8a000;background:#FFFBEA;">
+          <span class="produto-item-emoji">🌽🍌</span>
+          <div class="produto-item-info">
+            <div class="produto-item-nome">Combo c/queijo</div>
+            <div class="produto-item-desc">Corn Dog + Banana · R$ 17</div>
+          </div>
+          <div class="qty-inline">
+            <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('combo-queijo',-1)">−</button>
+            <span class="qty-inline-val" id="tqty-combo-queijo">0</span>
+            <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('combo-queijo',1)">+</button>
+          </div>
+        </div>
+        <div class="produto-item" id="pi-combo-simples" style="border-color:#c8a000;background:#FFFBEA;">
+          <span class="produto-item-emoji">🌽🍌</span>
+          <div class="produto-item-info">
+            <div class="produto-item-nome">Combo s/queijo</div>
+            <div class="produto-item-desc">Corn Dog + Banana · R$ 15</div>
+          </div>
+          <div class="qty-inline">
+            <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('combo-simples',-1)">−</button>
+            <span class="qty-inline-val" id="tqty-combo-simples">0</span>
+            <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('combo-simples',1)">+</button>
+          </div>
+        </div>
       </div>
       <div style="background:#fff;border:var(--border);border-radius:var(--radius-lg);padding:14px 18px;margin-top:12px;display:flex;justify-content:space-between;align-items:center;">
         <span style="font-size:15px;color:#666;">Total</span>
@@ -388,7 +412,7 @@
           <label>Observação (opcional)</label>
           <input class="totem-input" type="text" id="totem-obs" placeholder="Ex: sem cebola, alergia..." />
         </div>
-        <div class="totem-section-label" style="margin-top:16px;">Sobre você</div>
+        <div class="totem-section-label" style="margin-top:16px;">Sobre você (opcional)</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
           <button class="campus-btn" onclick="totemCampus('FCA',this)"><i class="ti ti-building"></i> FCA</button>
           <button class="campus-btn" onclick="totemCampus('FT',this)"><i class="ti ti-building"></i> FT</button>
@@ -405,14 +429,7 @@
           <div>
             <label style="font-size:13px;color:#666;display:block;margin-bottom:5px;">Curso</label>
             <select class="totem-input" id="totem-curso" style="padding:12px;" onchange="totemValidar()">
-              <option value="">—</option>
-              <option>Administração</option><option>Administração Pública</option>
-              <option>Ciências do Esporte</option><option>Engenharia de Manufatura</option>
-              <option>Engenharia de Produção</option><option>Nutrição</option>
-              <option>Sistemas de Informaçao</option><option>Saneamento Ambiental</option>
-              <option>Engenharia Ambiental</option><option>Engenharia de Transportes</option>
-              <option>Engenharia de Telecomunicações</option><option>Professor(a)</option>
-              <option>Prestador(a) de Serviços</option><option>Outro</option>
+              <option value="">—</option><option>Administração</option><option>Administração Pública</option><option>Ciências do Esporte</option><option>Engenharia de Manufatura</option><option>Engenharia de Produção</option><option>Nutrição</option><option>Sistemas de Informação</option><option>Saneamento Ambiental</option><option>Engenharia Ambiental</option><option>Engenharia de Transportes</option><option>Engenharia de Telecomunicações</option><option>Professor(a)</option><option>Prestador(a) de Serviços</option><option>Outro</option>
             </select>
           </div>
         </div>
@@ -489,24 +506,18 @@
         <div class="form-row">
           <div class="form-group"><label>Vendedor (opcional)</label><input type="text" id="c-vend" placeholder="Ex: João" /></div>
           <div class="form-group">
-            <label>Campus</label>
+            <label>Campus (opcional)</label>
             <select id="c-campus" onchange="caixaValidar()"><option value="">—</option><option>FCA</option><option>FT</option></select>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>Ano de ingresso</label>
+            <label>Ano de ingresso (opcional)</label>
             <select id="c-ano" onchange="caixaValidar()"><option value="">—</option><option>2020</option><option>2021</option><option>2022</option><option>2023</option><option>2024</option><option>2025</option><option>2026</option></select>
           </div>
           <div class="form-group">
-            <label>Curso</label>
-            <select id="c-curso" onchange="caixaValidar()"><option value="">—</option><option>Administração</option><option>Administração Pública</option>
-              <option>Ciências do Esporte</option><option>Engenharia de Manufatura</option>
-              <option>Engenharia de Produção</option><option>Nutrição</option>
-              <option>Sistemas de Informaçao</option><option>Saneamento Ambiental</option>
-              <option>Engenharia Ambiental</option><option>Engenharia de Transportes</option>
-              <option>Engenharia de Telecomunicações</option><option>Professor(a)</option>
-              <option>Prestador(a) de Serviços</option><option>Outro</option></select>
+            <label>Curso (opcional)</label>
+            <select id="c-curso" onchange="caixaValidar()"><option value="">—</option><option>Administração</option><option>Administração Pública</option><option>Ciências do Esporte</option><option>Engenharia de Manufatura</option><option>Engenharia de Produção</option><option>Nutrição</option><option>Sistemas de Informação</option><option>Saneamento Ambiental</option><option>Engenharia Ambiental</option><option>Engenharia de Transportes</option><option>Engenharia de Telecomunicações</option><option>Professor(a)</option><option>Prestador(a) de Serviços</option><option>Outro</option></select>
           </div>
         </div>
         <div class="form-group"><label>Observação (opcional)</label><textarea id="c-obs" placeholder="Ex: sem cebola..."></textarea></div>
@@ -517,6 +528,8 @@
           <button class="prod-btn" onclick="caixaProd('corn-dog-queijo',12,this)"><div class="pn">Corn Dog</div><div class="pp">R$ 12,00</div><span class="pt tag-q">com queijo</span></button>
           <button class="prod-btn" onclick="caixaProd('corn-dog-simples',10,this)"><div class="pn">Corn Dog</div><div class="pp">R$ 10,00</div><span class="pt tag-s">sem queijo</span></button>
           <button class="prod-btn" onclick="caixaProd('banana-frita',8,this)"><div class="pn">Banana Frita</div><div class="pp">R$ 8,00</div><span class="pt tag-v">vegano</span></button>
+          <button class="prod-btn" onclick="caixaProd('combo-queijo',17,this)" style="border-color:#c8a000;"><div class="pn">Combo c/queijo</div><div class="pp">R$ 17,00</div><span class="pt" style="background:#FFFBEA;color:#7a5f00;">combo</span></button>
+          <button class="prod-btn" onclick="caixaProd('combo-simples',15,this)" style="border-color:#c8a000;"><div class="pn">Combo s/queijo</div><div class="pp">R$ 15,00</div><span class="pt" style="background:#FFFBEA;color:#7a5f00;">combo</span></button>
         </div>
         <div class="qty-row">
           <span style="font-size:14px;color:#666;">Quantidade</span>
@@ -600,7 +613,9 @@
   const PRODUTOS = {
     'corn-dog-queijo':  { nome: 'Corn Dog (com queijo)', preco: 12 },
     'corn-dog-simples': { nome: 'Corn Dog (sem queijo)', preco: 10 },
-    'banana-frita':     { nome: 'Banana Frita Empanada', preco: 8  }
+    'banana-frita':     { nome: 'Banana Frita Empanada', preco: 8  },
+    'combo-queijo':     { nome: 'Combo c/queijo',        preco: 17 },
+    'combo-simples':    { nome: 'Combo s/queijo',        preco: 15 }
   };
   const NOME_BARRACA = 'Liga de Data Science';
   // ─── SENHA (altere aqui) ────────────────────────────────────────────────────
@@ -976,6 +991,9 @@
       updates[`pedidos/${key}/msgEnviada`] = true;
       abrirWhatsApp(p, novoStatus);
     }
+    if (novoStatus === 'entregue') {
+      abrirWhatsAppEntregue(p);
+    }
     await update(ref(db), updates);
     toast('Pedido #' + p.numero + ' → ' + { preparo: 'em preparo', pronto: 'pronto', entregue: 'entregue' }[novoStatus]);
   };
@@ -1000,6 +1018,13 @@
     const tel    = p.tel.replace(/\D/g, '');
     const telFmt = tel.length === 11 ? '55' + tel : tel;
     window.open('https://wa.me/' + telFmt + '?text=' + encodeURIComponent(msgs[status]), '_blank');
+  }
+
+  function abrirWhatsAppEntregue(p) {
+    const msg = 'Obrigada por comprar na barraquinha da Liga de Data Science!\nPor favor preencha este formul\u00e1rio para melhorarmos a sua experi\u00eancia na Festa Junina do pr\u00f3ximo ano. N\u00e3o demora nem cinco minutinhos e voc\u00ea ainda concorre a um brinde da Liga!\nhttps://forms.gle/nzENMFir3ngQ4wvq5';
+    const tel    = p.tel.replace(/\D/g, '');
+    const telFmt = tel.length === 11 ? '55' + tel : tel;
+    window.open('https://wa.me/' + telFmt + '?text=' + encodeURIComponent(msg), '_blank');
   }
 
   // ════════════════════════════════════════════════════════════
