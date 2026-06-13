@@ -357,7 +357,7 @@
           <span class="produto-item-emoji">🍌</span>
           <div class="produto-item-info">
             <div class="produto-item-nome">Banana Frita</div>
-            <div class="produto-item-desc">Vegano · R$ 8</div>
+            <div class="produto-item-desc">Vegetariana · R$ 10</div>
           </div>
           <div class="qty-inline">
             <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('banana-frita',-1)">−</button>
@@ -369,7 +369,7 @@
           <span class="produto-item-emoji">🌽🍌</span>
           <div class="produto-item-info">
             <div class="produto-item-nome">Combo c/queijo</div>
-            <div class="produto-item-desc">Corn Dog + Banana · R$ 17</div>
+            <div class="produto-item-desc">Corn Dog + Banana · R$ 20</div>
           </div>
           <div class="qty-inline">
             <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('combo-queijo',-1)">−</button>
@@ -381,7 +381,7 @@
           <span class="produto-item-emoji">🌽🍌</span>
           <div class="produto-item-info">
             <div class="produto-item-nome">Combo s/queijo</div>
-            <div class="produto-item-desc">Corn Dog + Banana · R$ 15</div>
+            <div class="produto-item-desc">Corn Dog + Banana · R$ 18</div>
           </div>
           <div class="qty-inline">
             <button class="qty-inline-btn" onclick="event.stopPropagation();totemCartQty('combo-simples',-1)">−</button>
@@ -413,9 +413,10 @@
           <input class="totem-input" type="text" id="totem-obs" placeholder="Ex: sem cebola, alergia..." />
         </div>
         <div class="totem-section-label" style="margin-top:16px;">Sobre você (opcional)</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
           <button class="campus-btn" onclick="totemCampus('FCA',this)"><i class="ti ti-building"></i> FCA</button>
           <button class="campus-btn" onclick="totemCampus('FT',this)"><i class="ti ti-building"></i> FT</button>
+          <button class="campus-btn" onclick="totemCampus('externo',this)"><i class="ti ti-world"></i> Externo</button>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;">
           <div>
@@ -507,7 +508,7 @@
           <div class="form-group"><label>Vendedor (opcional)</label><input type="text" id="c-vend" placeholder="Ex: João" /></div>
           <div class="form-group">
             <label>Campus (opcional)</label>
-            <select id="c-campus" onchange="caixaValidar()"><option value="">—</option><option>FCA</option><option>FT</option></select>
+            <select id="c-campus" onchange="caixaValidar()"><option value="">—</option><option>FCA</option><option>FT</option><option>Externo</option></select>
           </div>
         </div>
         <div class="form-row">
@@ -527,9 +528,9 @@
         <div class="produtos-grid">
           <button class="prod-btn" onclick="caixaProd('corn-dog-queijo',12,this)"><div class="pn">Corn Dog</div><div class="pp">R$ 12,00</div><span class="pt tag-q">com queijo</span></button>
           <button class="prod-btn" onclick="caixaProd('corn-dog-simples',10,this)"><div class="pn">Corn Dog</div><div class="pp">R$ 10,00</div><span class="pt tag-s">sem queijo</span></button>
-          <button class="prod-btn" onclick="caixaProd('banana-frita',8,this)"><div class="pn">Banana Frita</div><div class="pp">R$ 8,00</div><span class="pt tag-v">vegano</span></button>
-          <button class="prod-btn" onclick="caixaProd('combo-queijo',17,this)" style="border-color:#c8a000;"><div class="pn">Combo c/queijo</div><div class="pp">R$ 17,00</div><span class="pt" style="background:#FFFBEA;color:#7a5f00;">combo</span></button>
-          <button class="prod-btn" onclick="caixaProd('combo-simples',15,this)" style="border-color:#c8a000;"><div class="pn">Combo s/queijo</div><div class="pp">R$ 15,00</div><span class="pt" style="background:#FFFBEA;color:#7a5f00;">combo</span></button>
+          <button class="prod-btn" onclick="caixaProd('banana-frita',10,this)"><div class="pn">Banana Frita</div><div class="pp">R$ 10,00</div><span class="pt tag-v">vegetariana</span></button>
+          <button class="prod-btn" onclick="caixaProd('combo-queijo',20,this)" style="border-color:#c8a000;"><div class="pn">Combo c/queijo</div><div class="pp">R$ 20,00</div><span class="pt" style="background:#FFFBEA;color:#7a5f00;">combo</span></button>
+          <button class="prod-btn" onclick="caixaProd('combo-simples',18,this)" style="border-color:#c8a000;"><div class="pn">Combo s/queijo</div><div class="pp">R$ 18,00</div><span class="pt" style="background:#FFFBEA;color:#7a5f00;">combo</span></button>
         </div>
         <div class="qty-row">
           <span style="font-size:14px;color:#666;">Quantidade</span>
@@ -543,6 +544,10 @@
         <div class="pag-row">
           <button class="pag-mini" onclick="caixaPag('pix',this)"><i class="ti ti-qrcode"></i> Pix</button>
           <button class="pag-mini" onclick="caixaPag('dinheiro',this)"><i class="ti ti-cash"></i> Dinheiro</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <input type="checkbox" id="c-desconto" onchange="caixaAtualizarTotal()" style="width:18px;height:18px;cursor:pointer;" />
+          <label for="c-desconto" style="font-size:13px;color:#666;cursor:pointer;">Desconto R$ 2,00 (não se aplica a combos)</label>
         </div>
         <div class="total-row">
           <span style="font-size:14px;color:#666;">Total</span>
@@ -613,13 +618,13 @@
   const PRODUTOS = {
     'corn-dog-queijo':  { nome: 'Corn Dog (com queijo)', preco: 12 },
     'corn-dog-simples': { nome: 'Corn Dog (sem queijo)', preco: 10 },
-    'banana-frita':     { nome: 'Banana Frita Empanada', preco: 8  },
-    'combo-queijo':     { nome: 'Combo c/queijo',        preco: 17 },
-    'combo-simples':    { nome: 'Combo s/queijo',        preco: 15 }
+    'banana-frita':     { nome: 'Banana Bytes',          preco: 10 },
+    'combo-queijo':     { nome: 'Combo c/queijo',        preco: 20 },
+    'combo-simples':    { nome: 'Combo s/queijo',        preco: 18 }
   };
   const NOME_BARRACA = 'Liga de Data Science';
   // ─── SENHA (altere aqui) ────────────────────────────────────────────────────
-  const SENHA = '1234';
+  const SENHA = '0609';
 
   // ─── ESTADO LOCAL ───────────────────────────────────────────────────────────
   let pedidos = {};   // espelho local do Firebase
@@ -762,7 +767,8 @@
       const tel   = document.getElementById('totem-tel').value.trim();
       const ano   = document.getElementById('totem-ano').value;
       const curso = document.getElementById('totem-curso').value;
-      btn.disabled = !(nome && tel && tPag && tCampus && ano && curso);
+      const externoT = tCampus === 'externo';
+      btn.disabled = !(nome && tel && tPag && tCampus && (externoT || (ano && curso)));
       btn.innerHTML = 'Continuar <i class="ti ti-arrow-right"></i>';
     } else if (tStep === 3) {
       btn.disabled = false;
@@ -873,10 +879,13 @@
   };
 
   function atualizarTotalCaixa() {
-    document.getElementById('c-total').textContent = cProd
-      ? 'R$ ' + (cPreco * cQty).toFixed(2).replace('.', ',')
-      : 'R$ —';
+    if (!cProd) { document.getElementById('c-total').textContent = 'R$ —'; return; }
+    const isCombo  = cProd.startsWith('combo');
+    const desconto = !isCombo && document.getElementById('c-desconto').checked ? 2 : 0;
+    const total    = (cPreco - desconto) * cQty;
+    document.getElementById('c-total').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
   }
+  window.caixaAtualizarTotal = atualizarTotalCaixa;
 
   window.caixaValidar = () => {
     const nome   = document.getElementById('c-nome').value.trim();
@@ -884,7 +893,8 @@
     const campus = document.getElementById('c-campus').value;
     const ano    = document.getElementById('c-ano').value;
     const curso  = document.getElementById('c-curso').value;
-    document.getElementById('c-btn').disabled = !(nome && tel && cProd && cPagSel && campus && ano && curso);
+    const ext = campus === 'Externo';
+    document.getElementById('c-btn').disabled = !(nome && tel && cProd && cPagSel && campus && (ext || (ano && curso)));
   };
 
   window.caixaRegistrar = async () => {
@@ -902,7 +912,7 @@
       pagamento: cPagSel,
       produto: cProd,
       qty: cQty,
-      total: cPreco * cQty,
+      total: (() => { const isCombo = cProd.startsWith('combo'); const desc = !isCombo && document.getElementById('c-desconto').checked ? 2 : 0; return (cPreco - desc) * cQty; })(),
       status: 'aguardando',
       origem: 'caixa',
       horario: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
@@ -920,6 +930,7 @@
     document.getElementById('c-campus').value = '';
     document.getElementById('c-ano').value    = '';
     document.getElementById('c-curso').value  = '';
+    document.getElementById('c-desconto').checked = false;
     document.querySelectorAll('.prod-btn').forEach(x => x.classList.remove('selected'));
     document.querySelectorAll('.pag-mini').forEach(x => x.classList.remove('selected'));
     cProd = null; cPreco = 0; cQty = 1; cPagSel = null;
