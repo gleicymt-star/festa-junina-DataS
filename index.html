@@ -528,19 +528,67 @@
       </div>
       <div class="card">
         <div class="section-label">Produto</div>
-        <div class="produtos-grid">
-          <button class="prod-btn" onclick="caixaProd('corn-dog-queijo',12,this)"><div class="pn">Corn Dog</div><div class="pp">R$ 12,00</div><span class="pt tag-q">com queijo</span></button>
-          <button class="prod-btn" onclick="caixaProd('corn-dog-simples',10,this)"><div class="pn">Corn Dog</div><div class="pp">R$ 10,00</div><span class="pt tag-s">sem queijo</span></button>
-          <button class="prod-btn" onclick="caixaProd('banana-frita',10,this)"><div class="pn">Banana Frita</div><div class="pp">R$ 10,00</div><span class="pt tag-v">vegetariana</span></button>
-          <button class="prod-btn" onclick="caixaProd('combo-queijo',20,this)" style="border-color:#c8a000;"><div class="pn">Combo c/queijo</div><div class="pp">R$ 20,00</div><span class="pt" style="background:#FFFBEA;color:#7a5f00;">combo</span></button>
-          <button class="prod-btn" onclick="caixaProd('combo-simples',18,this)" style="border-color:#c8a000;"><div class="pn">Combo s/queijo</div><div class="pp">R$ 18,00</div><span class="pt" style="background:#FFFBEA;color:#7a5f00;">combo</span></button>
-        </div>
-        <div class="qty-row">
-          <span style="font-size:14px;color:#666;">Quantidade</span>
-          <div class="qty-controls">
-            <button class="qty-btn" onclick="caixaQty(-1)">−</button>
-            <span class="qty-val" id="c-qty">1</span>
-            <button class="qty-btn" onclick="caixaQty(1)">+</button>
+        <div class="section-label">Produto</div>
+        
+        <div class="produto-grid" style="margin-bottom: 16px;">
+          <div class="produto-item" id="cpi-corn-dog-queijo" style="padding: 12px; gap: 8px;">
+            <div class="produto-item-info">
+              <div class="produto-item-nome" style="font-size: 15px;">Corn Dog c/ queijo</div>
+              <div class="produto-item-desc">R$ 12,00</div>
+            </div>
+            <div class="qty-inline">
+              <button class="qty-inline-btn" style="width: 28px; height: 28px; font-size: 16px;" onclick="caixaCartQty('corn-dog-queijo',-1)">−</button>
+              <span class="qty-inline-val" id="cqty-corn-dog-queijo" style="font-size: 16px;">0</span>
+              <button class="qty-inline-btn" style="width: 28px; height: 28px; font-size: 16px;" onclick="caixaCartQty('corn-dog-queijo',1)">+</button>
+            </div>
+          </div>
+          
+          <div class="produto-item" id="cpi-corn-dog-simples" style="padding: 12px; gap: 8px;">
+            <div class="produto-item-info">
+              <div class="produto-item-nome" style="font-size: 15px;">Corn Dog s/ queijo</div>
+              <div class="produto-item-desc">R$ 10,00</div>
+            </div>
+            <div class="qty-inline">
+              <button class="qty-inline-btn" style="width: 28px; height: 28px; font-size: 16px;" onclick="caixaCartQty('corn-dog-simples',-1)">−</button>
+              <span class="qty-inline-val" id="cqty-corn-dog-simples" style="font-size: 16px;">0</span>
+              <button class="qty-inline-btn" style="width: 28px; height: 28px; font-size: 16px;" onclick="caixaCartQty('corn-dog-simples',1)">+</button>
+            </div>
+          </div>
+
+          <div class="produto-item" id="cpi-banana-frita" style="padding: 12px; gap: 8px;">
+            <div class="produto-item-info">
+              <div class="produto-item-nome" style="font-size: 15px;">Banana Bytes</div>
+              <div class="produto-item-desc">R$ 10,00</div>
+            </div>
+            <div class="qty-inline">
+              <button class="qty-inline-btn" style="width: 28px; height: 28px; font-size: 16px;" onclick="caixaCartQty('banana-frita',-1)">−</button>
+              <span class="qty-inline-val" id="cqty-banana-frita" style="font-size: 16px;">0</span>
+              <button class="qty-inline-btn" style="width: 28px; height: 28px; font-size: 16px;" onclick="caixaCartQty('banana-frita',1)">+</button>
+            </div>
+          </div>
+
+          <div class="produto-item" id="cpi-combo-queijo" style="padding: 12px; gap: 8px; border-color:#c8a000; background:#FFFBEA;">
+            <div class="produto-item-info">
+              <div class="produto-item-nome" style="font-size: 15px;">Combo c/ queijo</div>
+              <div class="produto-item-desc">R$ 20,00</div>
+            </div>
+            <div class="qty-inline">
+              <button class="qty-inline-btn" style="width: 28px; height: 28px; font-size: 16px;" onclick="caixaCartQty('combo-queijo',-1)">−</button>
+              <span class="qty-inline-val" id="cqty-combo-queijo" style="font-size: 16px;">0</span>
+              <button class="qty-inline-btn" style="width: 28px; height: 28px; font-size: 16px;" onclick="caixaCartQty('combo-queijo',1)">+</button>
+            </div>
+          </div>
+
+          <div class="produto-item" id="cpi-combo-simples" style="padding: 12px; gap: 8px; border-color:#c8a000; background:#FFFBEA;">
+            <div class="produto-item-info">
+              <div class="produto-item-nome" style="font-size: 15px;">Combo s/ queijo</div>
+              <div class="produto-item-desc">R$ 18,00</div>
+            </div>
+            <div class="qty-inline">
+              <button class="qty-inline-btn" style="width: 28px; height: 28px; font-size: 16px;" onclick="caixaCartQty('combo-simples',-1)">−</button>
+              <span class="qty-inline-val" id="cqty-combo-simples" style="font-size: 16px;">0</span>
+              <button class="qty-inline-btn" style="width: 28px; height: 28px; font-size: 16px;" onclick="caixaCartQty('combo-simples',1)">+</button>
+            </div>
           </div>
         </div>
         <div class="section-label">Pagamento</div>
@@ -858,20 +906,15 @@
   // ════════════════════════════════════════════════════════════
   // PAINEL — CAIXA
   // ════════════════════════════════════════════════════════════
-  let cProd = null, cPreco = 0, cQty = 1, cPagSel = null;
+  let cCart = {}, cPagSel = null;
 
-  window.caixaProd = (p, preco, el) => {
-    document.querySelectorAll('.prod-btn').forEach(x => x.classList.remove('selected'));
-    el.classList.add('selected');
-    cProd = p; cPreco = preco;
+  window.caixaCartQty = (prod, d) => {
+    cCart[prod] = Math.max(0, (cCart[prod] || 0) + d);
+    document.getElementById('cqty-' + prod).textContent = cCart[prod];
+    const el = document.getElementById('cpi-' + prod);
+    if (el) el.classList.toggle('has-qty', cCart[prod] > 0);
     atualizarTotalCaixa();
     caixaValidar();
-  };
-
-  window.caixaQty = (d) => {
-    cQty = Math.max(1, cQty + d);
-    document.getElementById('c-qty').textContent = cQty;
-    atualizarTotalCaixa();
   };
 
   window.caixaPag = (p, el) => {
@@ -882,11 +925,20 @@
   };
 
   function atualizarTotalCaixa() {
-    if (!cProd) { document.getElementById('c-total').textContent = 'R$ —'; return; }
-    const isCombo  = cProd.startsWith('combo');
-    const desconto = !isCombo && document.getElementById('c-desconto').checked ? 2 : 0;
-    const total    = (cPreco - desconto) * cQty;
-    document.getElementById('c-total').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+    let subtotal = Object.entries(cCart).reduce((s,[k,v]) => s + (PRODUTOS[k]?.preco || 0) * v, 0);
+    const totalItens = Object.values(cCart).reduce((s,v) => s+v, 0);
+
+    // Desconto de R$ 2,00 se a caixa for marcada E houver itens que não são combo no carrinho
+    const temItemSemCombo = Object.entries(cCart).some(([k,v]) => v > 0 && !k.startsWith('combo'));
+    const desconto = (document.getElementById('c-desconto').checked && temItemSemCombo) ? 2 : 0;
+    
+    let totalFinal = Math.max(0, subtotal - desconto);
+
+    if (totalItens === 0) { 
+      document.getElementById('c-total').textContent = 'R$ —'; 
+    } else {
+      document.getElementById('c-total').textContent = 'R$ ' + totalFinal.toFixed(2).replace('.', ',');
+    }
   }
   window.caixaAtualizarTotal = atualizarTotalCaixa;
 
@@ -897,7 +949,9 @@
     const ano    = document.getElementById('c-ano').value;
     const curso  = document.getElementById('c-curso').value;
     const ext = campus === 'Externo';
-    document.getElementById('c-btn').disabled = !(nome && tel && cProd && cPagSel && campus && (ext || (ano && curso)));
+    const totalItens = Object.values(cCart).reduce((s,v) => s+v, 0);
+
+    document.getElementById('c-btn').disabled = !(nome && tel && totalItens > 0 && cPagSel && campus && (ext || (ano && curso)));
   };
 
   window.caixaRegistrar = async () => {
@@ -908,18 +962,31 @@
     const campus = document.getElementById('c-campus').value;
     const ano    = document.getElementById('c-ano').value;
     const curso  = document.getElementById('c-curso').value;
+
+    const itens  = Object.entries(cCart).filter(([,v]) => v > 0);
+    let subtotal = itens.reduce((s,[k,v]) => s + PRODUTOS[k].preco * v, 0);
+    
+    const temItemSemCombo = itens.some(([k,]) => !k.startsWith('combo'));
+    const desconto = (document.getElementById('c-desconto').checked && temItemSemCombo) ? 2 : 0;
+    const totalFinal = Math.max(0, subtotal - desconto);
+    
+    // String legível para a cozinha e CSV
+    const prodStr = itens.map(([k,v]) => v + 'x ' + PRODUTOS[k].nome).join(', ');
+
     const pedido = {
       numero: contadorLocal++,
       nome, tel, obs, vendedor: vend,
       campus, ano, curso,
       pagamento: cPagSel,
-      produto: cProd,
-      qty: cQty,
-      total: (() => { const isCombo = cProd.startsWith('combo'); const desc = !isCombo && document.getElementById('c-desconto').checked ? 2 : 0; return (cPreco - desc) * cQty; })(),
+      itens: cCart,
+      produto: prodStr,
+      qty: Object.values(cCart).reduce((s,v) => s+v, 0),
+      total: totalFinal,
       status: 'aguardando',
       origem: 'caixa',
       horario: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
     };
+    
     await push(pedidosRef, pedido);
     toast('Pedido #' + pedido.numero + ' registrado!');
     caixaReset();
@@ -934,10 +1001,17 @@
     document.getElementById('c-ano').value    = '';
     document.getElementById('c-curso').value  = '';
     document.getElementById('c-desconto').checked = false;
-    document.querySelectorAll('.prod-btn').forEach(x => x.classList.remove('selected'));
+    
+    // Zera o carrinho
+    cCart = {}; cPagSel = null;
+    Object.keys(PRODUTOS).forEach(k => {
+      const el = document.getElementById('cqty-' + k);
+      if (el) el.textContent = '0';
+      const pi = document.getElementById('cpi-' + k);
+      if (pi) pi.classList.remove('has-qty');
+    });
+
     document.querySelectorAll('.pag-mini').forEach(x => x.classList.remove('selected'));
-    cProd = null; cPreco = 0; cQty = 1; cPagSel = null;
-    document.getElementById('c-qty').textContent  = '1';
     document.getElementById('c-total').textContent = 'R$ —';
     document.getElementById('c-btn').disabled = true;
   }
